@@ -11,9 +11,9 @@ contract Chiemgauer is StandardToken {
    uint8 public decimals = 2;
    uint public INITIAL_SUPPLY = 0; // slices of pizza
 
-   function Chiemgauer() public {
+   function Chiemgauer(address ownAll) public {
        totalSupply_ = INITIAL_SUPPLY;
-       balances[msg.sender] = INITIAL_SUPPLY;
+       balances[ownAll] = INITIAL_SUPPLY;
 
    }
 
