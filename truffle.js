@@ -1,7 +1,3 @@
-// const rpcUrl = `https://kovan.infura.io/${API_KEY}` // parity: parity --chain kovan
-// const HDWalletProvider = require("truffle-hdwallet-provider")
-
-// https://github.com/trufflesuite/truffle-config/blob/develop/index.js
 module.exports = {
   // migrations_directory: "./src/migrations",
   // contracts_directory: "./src/contracts/",
@@ -11,6 +7,13 @@ module.exports = {
       host: "localhost",
       port: 7545,
       network_id: 5777,
+    },
+
+    ropsten: {
+      host: "127.0.0.1",
+      port: 8545,
+      network_id: 3,
+      gas: 4700000
     },
 
     // specify by --network local

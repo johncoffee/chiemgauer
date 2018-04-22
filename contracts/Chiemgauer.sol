@@ -4,7 +4,7 @@ import '../node_modules/zeppelin-solidity/contracts/token/ERC20/Mintabletoken.so
 import '../node_modules/zeppelin-solidity/contracts/token/ERC20/StandardBurnableToken.sol';
 
 
-contract Chiemgauer is StandardToken {
+contract Chiemgauer is MintableToken, StandardBurnableToken {
 
    string public name = 'Chiemgauer';
    string public symbol = 'Chiem';
