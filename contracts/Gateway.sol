@@ -12,8 +12,9 @@ contract Erc20Interface {
 
 contract Gateway {
 
-    address foundationAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
-    address erc20Address = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
+    address foundationAddress = 0x3e0FCAf8CEDC54Bd3B498A8Bd12F14Ff5d5C1FbF;
+
+    address erc20Address = 0x8be758ae4820433c59b9e6146de8226f79a95c71;
     Erc20Interface erc20Contract = Erc20Interface(erc20Address);
 
     event ReadyForTransaction(address walletId, uint TransactionRef);
