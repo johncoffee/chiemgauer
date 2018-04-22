@@ -6,6 +6,7 @@ contract Erc20Interface {
     function unsafe_mint(address _to, uint256 _amount) public returns (bool);
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool);
     function unsafe_burn(address _who, uint256 _value) public;
+    function totalSupply() public view returns (uint256);
 
 }
 
@@ -47,6 +48,10 @@ contract Gateway {
         erc20Contract.transferFrom(msg.sender, foundationAddress, AmountToFoundation);
         //BurnRemaining to withdraw
         erc20Contract.unsafe_burn(msg.sender, AmountToSender);
-
     }
+
+    function checkErc20Balance() public view returns (uint256){
+        return erc20Contract.totalSupply();
+    }
+
 }
