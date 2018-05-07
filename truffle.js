@@ -1,3 +1,6 @@
+var HDWalletProvider = require("truffle-hdwallet-provider");
+var mnemonic = "used setup resemble imitate anger gym sun ozone curtain tail habit oak";
+
 module.exports = {
   // migrations_directory: "./src/migrations",
   // contracts_directory: "./src/contracts/",
@@ -16,13 +19,6 @@ module.exports = {
       gas: 4700000
     },
 
-    // specify by --network local
-    local: {
-      host: "localhost",
-      port: 8545,
-      network_id: '*' // 1,2, 42, 1337, * (Match any network id)
-    },
-
     rinkeby: {
       host: "localhost",
       port: 8545,
@@ -37,6 +33,28 @@ module.exports = {
       port: 80,
       network_id: 1,
     },
+    ropsteninfura: {
+        provider: function() {
+          return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/lSJ4YysdSiZidnj2U2oO")
+        },
+        network_id: 5,
+        gas: 4700000
+    },
+    rinkebyinfura: {
+        provider: function() {
+            return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/lSJ4YysdSiZidnj2U2oO")
+        },
+        network_id: 6,
+        gas: 4700000
+    },
+    maininfura: {
+        provider: function() {
+            return new HDWalletProvider(mnemonic, "https://mainnet.infura.io/lSJ4YysdSiZidnj2U2oO")
+        },
+        network_id: 7,
+        gas: 4700000
+    },
+
 
     // test chains
     // ropsten: {

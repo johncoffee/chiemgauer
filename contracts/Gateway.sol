@@ -1,58 +1,60 @@
 pragma solidity ^0.4.19;
 
+import '../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol';
+
 contract Erc20Interface {
 
-    //THIS SHOULD BE SAFE
+    //UNSAFE MINT FOR DEBUGGUGGING PURPOSES
     function unsafe_mint(address _to, uint256 _amount) public returns (bool);
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool);
-    function unsafe_burn(address _who, uint256 _value) public;
-    function totalSupply() public view returns (uint256);
+
+    function mint(address _to, uint256 _amount) public returns (bool);
+    function burn(uint256 _value) public;
 
 }
 
-contract Gateway {
+contract Gateway is Ownable {
 
-    address foundationAddress = 0x3e0FCAf8CEDC54Bd3B498A8Bd12F14Ff5d5C1FbF;
+    //TODO, TransactionRef and TransactionHash should not be an uint, but a short string of 67 char
 
-    address erc20Address = 0x8be758ae4820433c59b9e6146de8226f79a95c71;
-    Erc20Interface erc20Contract = Erc20Interface(erc20Address);
+    address public erc20ContractAddress = 0x5e7979a7a445565c167b89598d849625968c8eef;
 
-    event ReadyForTransaction(address walletId, uint TransactionRef);
+    Erc20Interface erc20Contract = Erc20Interface(erc20ContractAddress);
+
+    event DepositFundsDirectlyComplete(uint TransactionRef, address walletId, uint Amount);
 
     mapping (uint => address) public referenceTransactionToOwner;
 
-    uint NoOfTransactions = 1;
-
-    function initializeTransaction () public {
-        uint TransactionRef = NoOfTransactions++;
-        referenceTransactionToOwner[TransactionRef] = msg.sender;
-        emit ReadyForTransaction(msg.sender,TransactionRef);
+    function setErc20ContractAddress(address _address) external onlyOwner {
+        erc20Contract = Erc20Interface(_address);
     }
 
-    //THIS FUNCTION SHOULD BE OWNER ONLY
-    function depositFunds(uint _TransactionRef, uint _Amount) public {
-        address TransactionOwner = referenceTransactionToOwner[_TransactionRef];
-        //MINT MONEY TO OWNERS ACCOUNT
-        erc20Contract.unsafe_mint(TransactionOwner, _Amount);
+    function depositFundsDirectly(uint _TransactionRef, address _Receiver, uint _Amount) external onlyOwner {
+        //Abort if transactionref has allready been processed
+        require(referenceTransactionToOwner[_TransactionRef]==0);
+        referenceTransactionToOwner[_TransactionRef]=_Receiver;
+        //Mint amount to receivers wallet
+        erc20Contract.mint(_Receiver, _Amount);
+        //Raise event for notify user on deposit complete
+        emit DepositFundsDirectlyComplete(_TransactionRef, _Receiver, _Amount);
     }
 
-    function withdrawFunds(uint _Amount) public {
-        //Foundation cannot withdraw
-        require(msg.sender !=foundationAddress);
-
-        uint AmountToFoundation = (_Amount - _Amount%10)/10;
-        uint AmountToSender = _Amount - AmountToFoundation;
-        uint TransactionRef = NoOfTransactions++;
-        referenceTransactionToOwner[TransactionRef] = msg.sender;
-        emit ReadyForTransaction(msg.sender,TransactionRef);
-        //Transfer fee to foundation
-        erc20Contract.transferFrom(msg.sender, foundationAddress, AmountToFoundation);
-        //BurnRemaining to withdraw
-        erc20Contract.unsafe_burn(msg.sender, AmountToSender);
+    function UnsafeDepositFundsDirectly(uint _TransactionRef, address _Receiver, uint _Amount) external onlyOwner {
+        //Abort if transactionref has allready been processed
+        require(referenceTransactionToOwner[_TransactionRef]==0);
+        referenceTransactionToOwner[_TransactionRef]=_Receiver;
+        //Mint amount to receivers wallet
+        //UNSAFE MINT FOR DEBUGGUGGING PURPOSES
+        erc20Contract.unsafe_mint(_Receiver, _Amount);
+        //Raise event for notify user on deposit complete
+        emit DepositFundsDirectlyComplete(_TransactionRef, _Receiver, _Amount);
     }
 
-    function checkErc20Balance() public view returns (uint256){
-        return erc20Contract.totalSupply();
+    function withdrawFunds(uint _TransactionHash, address _Sender, uint _Amount) external onlyOwner {
+        //Abort if transactionHash has allready been processed
+        require(referenceTransactionToOwner[_TransactionHash]==0);
+        referenceTransactionToOwner[_TransactionHash]=_Sender;
+
+        erc20Contract.burn(_Amount);
     }
 
 }

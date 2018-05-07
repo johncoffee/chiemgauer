@@ -12,6 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "node-gyp": "^3.6.2",
+    "npm": "^6.0.0",
+    "openzeppelin-solidity": "1.9.0",
+    "python": "0.0.4",
+    "truffle-hdwallet-provider": "0.0.5",
     "zeppelin-solidity": "git+https://github.com/OpenZeppelin/zeppelin-solidity.git"
   }
 }
