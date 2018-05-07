@@ -1,0 +1,15 @@
+{
+  "name": "mint",
+  "version": "0.0.1",
+  "dependencies": {
+    "web3": "1.0.0-beta.34"
+  },
+  "main": "mint.js",
+  "devDependencies": {
+    "@types/node": "^6.0.108",
+    "@types/underscore": "^1.8.8"
+  },
+  "scripts": {
+    "deploy": "gcloud beta functions deploy mint --trigger-http"
+  }
+}
