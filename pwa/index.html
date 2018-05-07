@@ -1,46 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script async src="https://checkout.stripe.com/checkout.js"></script>
-    <script defer>
-      window.addEventListener('load', () => {
-        const handler = StripeCheckout.configure({
-          key: 'pk_test_wbX0FkGoH0wY8QajKTihIjw8',
-          image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-          locale: 'auto',
-          token: function(token) {
-            console.debug("Created a charge-token...")
-            const amount = parseInt( document.querySelector('.token-amount-to-buy').value ) * 100
-            // post this to a cloud function
-            const debugString = `${token.id} ${amount} ${document.querySelector('.token-recipient').value}`
-            console.debug(debugString)
-            document.querySelector('.debug').textContent = debugString
-          }
-        });
+<meta charset="UTF-8">
+<title>Title</title>
+<script async src="https://checkout.stripe.com/checkout.js"></script>
+<script defer>
+function sendToken(token, amount, recipient) {
+  const url = 'https://us-central1-chiemgauer-203318.cloudfunctions.net/charge'
 
-        document.querySelector('.token-button').addEventListener('click', function(e) {
-          // Open Checkout with further options:
-          const amount = parseInt( document.querySelector('.token-amount-to-buy').value ) * 100
-          handler.open({
-            email: document.querySelector('.token-email').value,
-            name: 'Buy tokens',
-            description: 'some tokens',
-            currency: 'dkk',
-            allowRememberMe: false,
-            amount,
-          });
-          e.preventDefault();
-        });
+  const req = new Request(url, {
+    headers: {"Content-Type": "application/json"},
+    method: "POST",
+    url,
+    mode: 'cors',
+    body: {
+      amount,
+      token,
+      recipient
+    }
+  })
+  fetch(req)
+    .then(() => alert('OK! Expect the tokens to arrive within a few minutes.'))
+    .catch(() => alert('Error sending token request.'))
+}
 
-        // Close Checkout on page navigation:
-        window.addEventListener('popstate', function() {
-          handler.close();
-        })
+window.addEventListener('load', () => {
+console.assert(!!StripeCheckout, "StripeCheckout should be defined")
+const handler = StripeCheckout.configure({
+  key: 'pk_test_wbX0FkGoH0wY8QajKTihIjw8',
+  image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+  locale: 'auto',
+  token: function(token) {
+    console.debug("Created a charge-token...")
+    const amountDkk = parseInt( document.querySelector('.token-amount-dkk').value , 10)
+    const amountCents = parseInt( document.querySelector('.token-amount-cents').value , 10)
+    const amount = Math.floor((amountDkk * 100) + amountCents)
+    // post this to a cloud function
+    const recipient = document.querySelector('.token-recipient').value
+    const debugString = `${token.id} ${amount} ${recipient}`
+    console.debug(debugString)
+    // document.querySelector('.debug').textContent = debugString
+    sendToken(token, amount, recipient)
+  }
+});
 
-      })
-    </script>
+document.querySelector('.token-button').addEventListener('click', function(e) {
+  // Open Checkout with further options:
+  const amount = parseInt( document.querySelector('.token-amount-to-buy').value ) * 100
+  handler.open({
+    email: document.querySelector('.token-email').value,
+    name: 'Buy tokens',
+    description: 'some tokens',
+    currency: 'dkk',
+    allowRememberMe: false,
+    amount,
+  });
+  e.preventDefault();
+});
+
+// Close Checkout on page navigation:
+window.addEventListener('popstate', function() {
+  handler.close();
+})
+
+})
+</script>
 </head>
 <body>
 
@@ -49,7 +73,8 @@
     <input class="token-recipient" type="text" value="0x51f8a5d539582eb9bf2f71f66bcc0e6b37abb7ca"
            maxlength="42" minlength="42" size="42" required placeholder="Token recipient (address)"><br>
     <input class="token-email" type="email" value="derp@ragelse.dk" required><br>
-    <input class="token-amount-to-buy" type="number" max="100" min="0" placeholder="Amount" value="6" required> DKK
+    DKK <input class="token-amount-dkk" type="number" max="9999" min="0" placeholder="Amount" value="6" size="4" required>
+        <input class="token-amount-cents" type="number" max="100" min="0" placeholder="Amount" value="45" size="2" required>
     <button class="token-button" type="button">Purchase</button>
 </p>
 
