@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script async src="https://checkout.stripe.com/checkout.js"></script>
+    <script defer>
+      window.addEventListener('load', () => {
+        const handler = StripeCheckout.configure({
+          key: 'pk_test_wbX0FkGoH0wY8QajKTihIjw8',
+          image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+          locale: 'auto',
+          token: function(token) {
+            console.debug("Created a charge-token...")
+            const amount = parseInt( document.querySelector('.token-amount-to-buy').value ) * 100
+            // post this to a cloud function
+            const debugString = `${token.id} ${amount} ${document.querySelector('.token-recipient').value}`
+            console.debug(debugString)
+            document.querySelector('.debug').textContent = debugString
+          }
+        });
+
+        document.querySelector('.token-button').addEventListener('click', function(e) {
+          // Open Checkout with further options:
+          const amount = parseInt( document.querySelector('.token-amount-to-buy').value ) * 100
+          handler.open({
+            email: document.querySelector('.token-email').value,
+            name: 'Buy tokens',
+            description: 'some tokens',
+            currency: 'dkk',
+            allowRememberMe: false,
+            amount,
+          });
+          e.preventDefault();
+        });
+
+        // Close Checkout on page navigation:
+        window.addEventListener('popstate', function() {
+          handler.close();
+        })
+
+      })
+    </script>
+</head>
+<body>
+
+<h3>Buy some tokens</h3>
+<p>
+    <input class="token-recipient" type="text" value=""
+           maxlength="42" minlength="42" size="42" required placeholder="Token recipient (address)"><br>
+    <input class="token-email" type="email" value="derp@ragelse.dk" required><br>
+    <input class="token-amount-to-buy" type="currency" max="100" min="0" placeholder="Amount" value="6" required> DKK
+    <button class="token-button" type="button">Purchase</button>
+</p>
+
+<hr>
+<h6>Log:</h6>
+<pre class="debug"></pre>
+
+</body>
+</html>
