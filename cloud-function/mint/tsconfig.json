@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es6",
+    "noEmitHelpers": false,
+    "noEmitOnError": false,
+    "noImplicitAny": false,
+    "alwaysStrict": true,
+    "allowUnreachableCode": true,
+    "pretty": true,
+    "sourceMap": false
+  },
+  "include": [
+    "./node_modules/types-bn/index.d.ts",
+    "./**/*.ts"
+  ],
+  "exclude": [
+    "build"
+  ]
+}

@@ -1,4 +1,8 @@
-node_modules
-build
-truffle-config.js
-.idea
+node_modules/
+build/
+.idea/
+
+tmp/
+cloud-function/**/*.js
+ethereum/**/*.js
+stripe/**/*.js
