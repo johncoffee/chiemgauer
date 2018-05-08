@@ -1,0 +1,16 @@
+{
+  "name": "charge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "charge.js",
+  "dependencies": {
+    "stripe": "^5.8.0"
+  },
+  "scripts": {
+    "deploy": "gcloud beta functions deploy charge --trigger-http"
+  },
+  "devDependencies": {
+    "@types/node": "^6.0.108",
+    "@types/stripe": "^5.0.10"
+  }
+}
