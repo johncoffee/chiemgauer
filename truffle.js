@@ -1,8 +1,11 @@
+
 const Web3 = require("web3")
 const HDWalletProvider = require("truffle-hdwallet-provider")
-const API_KEY = 'xSa977dElK0pyDw8ipCV'
+const API_KEY = process.env.API_KEY
 
 const web3 = new Web3(`http://localhost:7545`)
+
+const mnemonic = "used setup resemble imitate anger gym sun ozone curtain tail habit oak";
 
 module.exports = {
   // migrations_directory: "./src/migrations",
@@ -13,8 +16,6 @@ module.exports = {
       host: "localhost",
       port: 7545,
       network_id: 1337,
-      // gasPrice: 5000000000,
-      // gas: 4712388,
     },
 
     rinkfura: {
@@ -66,6 +67,29 @@ module.exports = {
       port: 80,
       network_id: 1,
     },
+
+    ropsteninfura: {
+        provider: function() {
+          return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/lSJ4YysdSiZidnj2U2oO")
+        },
+        network_id: 5,
+        gas: 4700000
+    },
+    rinkebyinfura: {
+        provider: function() {
+            return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/lSJ4YysdSiZidnj2U2oO")
+        },
+        network_id: 6,
+        gas: 4700000
+    },
+    maininfura: {
+        provider: function() {
+            return new HDWalletProvider(mnemonic, "https://mainnet.infura.io/lSJ4YysdSiZidnj2U2oO")
+        },
+        network_id: 7,
+        gas: 4700000
+    },
+
 
     // test chains
     // ropsten: {

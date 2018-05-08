@@ -1,0 +1,11 @@
+pragma solidity ^0.4.17;
+
+Gateway.deployed().then(function(instance){return instance.setErc20ContractAddress("0x345ca3e014aaf5dca488057592ee47305d9b3e10");});
+Gateway.deployed().then(function(instance){return instance.depositFundsDirectly(1, "0xf17f52151ebef6c7334fad080c5704d77216b732", 1000);});
+Gateway.deployed().then(function(instance){return instance.withdrawFunds("0xf17f52151ebef6c7334fad080c5704d77216b732",100);});
+
+Chiemgauer.deployed().then(function(instance){return instance.mint(0x7e0332fB5a513F340338bb33720b560e4D728752,10000);});
+Chiemgauer.deployed().then(function(instance){return instance.totalSupply();});
+Chiemgauer.deployed().then(function(instance){return instance.transferOwnership("0xf17f52151ebef6c7334fad080c5704d77216b732");});
+
+
