@@ -7,22 +7,11 @@ import '../node_modules/openzeppelin-solidity/contracts/token/ERC20/StandardBurn
 contract Chiemgauer is StandardBurnableToken, MintableToken {
 
    string public name = 'Chiemgauer';
-   string public symbol = 'Chiem';
+   string public symbol = 'CMG';
    uint8 public decimals = 2;
-   uint public INITIAL_SUPPLY = 0; // slices of pizza
+   uint public INITIAL_SUPPLY = 0;
 
-   function Chiemgauer(address ownAll) public {
+   constructor () public {
        totalSupply_ = INITIAL_SUPPLY;
-       balances[ownAll] = INITIAL_SUPPLY;
-
    }
-
-    //UNSAFE MINT FOR DEBUGGUGGING PURPOSES
-    function unsafe_mint(address _to, uint256 _amount) public returns (bool) {
-        totalSupply_ = totalSupply_.add(_amount);
-        balances[_to] = balances[_to].add(_amount);
-        emit Mint(_to, _amount);
-        emit Transfer(address(0), _to, _amount);
-        return true;
-    }
 }
