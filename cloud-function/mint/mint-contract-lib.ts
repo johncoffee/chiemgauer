@@ -4,9 +4,9 @@ import { EncodedTransaction, Tx } from 'web3/types.js'
 const Web3 = require('web3')
 
 // const privateKey = '0x' + '' // of the owner of the token contract
-const privateKey = '0x' + '376c61a664c5c223c4d248476b55ea53f407d5711f496c0efebf47ae22d0d6d4' // rink
+const privateKey = '0x' + '66b4b72fdbf512ff825787602b761d2f9983c7e828ea905284f43ea9a19f7d4b' // rink
 
-const methodName = 'unsafe_mint'
+const methodName = 'mint'
 const contractArtifact = require('./build/contracts/Chiemgauer.json')
 const mintAbi = contractArtifact.abi.find((method:any) => method.name === methodName)
 console.assert(!!mintAbi, `Should've found ${methodName} in `, contractArtifact.abi)
@@ -77,7 +77,7 @@ async function sendSigned(serializedSignedTxs:string[]) {
 if (!module.parent) {
   const recipient = process.argv[2]
   const amount = parseInt(process.argv[3], 10)
-
+  console.log("To ", recipient)
   const txFiles = <TokenOrderItem[]>[
     { amount,
       recipient,
