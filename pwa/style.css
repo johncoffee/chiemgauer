@@ -1,0 +1,66 @@
+/* tags */
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+}
+
+
+a {
+    color: inherit;
+}
+a:hover {text-decoration: underline}
+
+
+/*modules*/
+.input-group-label, [type="text"], [type="number"] {
+    background-color: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.5);
+    color: #fff;
+    transition: none;
+}
+[type="text"]:focus, [type="number"]:focus {
+    color: #222;
+    box-shadow: 0px 0px 8px rgba(255,255,255,0.85);
+    background-color: #fff;
+    border-color: rgba(255,255,255,0.5);
+}
+
+
+.margin-vertical-1 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+
+.full-background {
+    background-size: cover;
+    background-position: center center;
+}
+
+.half-height {
+    height: auto;
+}
+
+@media print, screen and (min-height: 534px) {
+    .half-height {
+        height: 100%;
+    }
+}
+
+
+/*colours*/
+
+.text-blue1 {color: #344d90;}
+.text-blue2 {color: #5cc5ef;}
+.text-yellow1 {color: #ffb745;}
+.text-orange1 {color: #e7552c;}
+.text-white {color: #ffffff;}
+
+.bg-blue1 {background-color: #344d90;}
+.bg-blue2 {background-color: #5cc5ef;}
+.bg-yellow1 {background-color: #ffb745;}
+.bg-orange1 {background-color: #e7552c;}
+.bg-white {background-color: #ffffff;}
+

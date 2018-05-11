@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "none",
+    "target": "es6",
+    "noEmitHelpers": true,
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "alwaysStrict": true,
+    "allowUnreachableCode": true,
+    "pretty": true,
+    "sourceMap": false
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "latest_build",
+    "contracts"
+  ]
+}
