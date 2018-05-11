@@ -10,6 +10,7 @@
     "@types/underscore": "^1.8.8"
   },
   "scripts": {
-    "deploy": "gcloud beta functions deploy mint --trigger-http"
+    "deploy": "tsc -p tsconfig.json && gcloud beta functions deploy mint --trigger-http",
+    "build": "cp -r ../../build ./"
   }
 }

@@ -7,7 +7,7 @@
     "stripe": "^5.8.0"
   },
   "scripts": {
-    "deploy": "gcloud beta functions deploy charge --trigger-http"
+    "deploy": "tsc -p tsconfig.json && gcloud beta functions deploy charge --trigger-http"
   },
   "devDependencies": {
     "@types/node": "^6.0.108",
