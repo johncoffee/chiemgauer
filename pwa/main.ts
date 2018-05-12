@@ -28,11 +28,9 @@ function linkCurrencies(selector1:string, selector2:string, exchangeRate:number)
   const el2 = document.querySelector(selector2) as HTMLInputElement
   console.assert(el1 && el2, `should've found..`,el1, el2)
   el1.addEventListener('keyup', () => {
-    console.debug("el 1 " + el1.valueAsNumber)
     el2.valueAsNumber = toPrecision(el1.valueAsNumber * exchangeRate, 2)
   })
   el2.addEventListener('keyup', () => {
-    console.debug("el 2 " + el2.valueAsNumber)
     el1.valueAsNumber = toPrecision(el2.valueAsNumber / exchangeRate, 2)
   })
 }
