@@ -18,9 +18,7 @@ function sendToken (token, amount, recipient) {
 }
 
 function getAmountCents (selector:string):number {
-  const amountDkk = parseFloat(document.querySelector(selector).getAttribute('value'))
-  const cents = Math.floor(amountDkk * 100)
-  return cents
+  return Math.round( (document.querySelector(selector) as HTMLInputElement).valueAsNumber * 100)
 }
 
 function linkCurrencies(selector1:string, selector2:string, exchangeRate:number) {
