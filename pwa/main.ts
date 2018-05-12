@@ -17,12 +17,51 @@ function sendToken (token, amount, recipient) {
     })
 }
 
-function getAmountCents ():number {
-  const amountDkk = parseFloat(document.querySelector('.token-amount-dkk').getAttribute('value'))
+function getAmountCents (selector:string):number {
+  const amountDkk = parseFloat(document.querySelector(selector).getAttribute('value'))
   const cents = Math.floor(amountDkk * 100)
   return cents
 }
 
+function linkCurrencies(selector1:string, selector2:string, exchangeRate:number) {
+  const el1 = document.querySelector(selector1) as HTMLInputElement
+  const el2 = document.querySelector(selector2) as HTMLInputElement
+  console.assert(el1 && el2, `should've found..`,el1, el2)
+  el1.addEventListener('keyup', () => {
+    console.debug("el 1 " + el1.valueAsNumber)
+    el2.valueAsNumber = toPrecision(el1.valueAsNumber * exchangeRate, 2)
+  })
+  el2.addEventListener('keyup', () => {
+    console.debug("el 2 " + el2.valueAsNumber)
+    el1.valueAsNumber = toPrecision(el2.valueAsNumber / exchangeRate, 2)
+  })
+}
+
+async function withdraw() {
+  const amount = getAmountCents(".sell-amount-cmg")
+  const recipient = ""
+  const url = 'https://us-central1-chiemgauer-203318.cloudfunctions.net/withdraw'
+    + `?amount=${amount}&recipient=${recipient}`
+
+  const req = new Request(url, <RequestInit>{
+    headers: <HeadersInit>{
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+    mode: 'cors',
+  })
+  const res = await fetch(req)
+  alert('Withdrawal registered')
+}
+
+function toPrecision(value:number, numDecimals = 2):number {
+  return Math.round( value * 10 ** numDecimals ) / 10 ** numDecimals
+}
+
+window.addEventListener('load', () => {
+  linkCurrencies('.buy-amount-token','.buy-amount-dkk', 1)
+  linkCurrencies('.sell-amount-token','.sell-amount-dkk', 0.95)
+})
 
 function onStripeLoaded (StripeCheckout:any) {
   const handler = StripeCheckout.configure({
@@ -30,7 +69,7 @@ function onStripeLoaded (StripeCheckout:any) {
     image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
     locale: 'auto',
     token: function (token) {
-      const amount = getAmountCents()
+      const amount = getAmountCents('.buy-amount-token')
       // post this to a cloud function
       const recipient = document.querySelector('.token-recipient').getAttribute('value')
       const debugString = `${token.id} ${amount} ${recipient}`
@@ -42,7 +81,7 @@ function onStripeLoaded (StripeCheckout:any) {
 
   document.querySelector('.token-button').addEventListener('click', (e) => {
     // Open Checkout with further options:
-    const amount = getAmountCents()
+    const amount = getAmountCents('.buy-amount-dkk')
     handler.open({
       name: 'Buy tokens',
       description: 'some tokens',
@@ -60,6 +99,7 @@ function onStripeLoaded (StripeCheckout:any) {
 }
 
 window.addEventListener('load', () => {
+  console.debug("Load!")
   if (!(window as any).StripeCheckout) return
   console.assert(!!(window as any).StripeCheckout, 'StripeCheckout should be defined')
   onStripeLoaded((window as any).StripeCheckout)
