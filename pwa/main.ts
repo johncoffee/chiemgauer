@@ -1,4 +1,4 @@
-function sendToken (token, amount, recipient) {
+export function sendToken (token, amount, recipient) {
   const url = 'https://us-central1-chiemgauer-203318.cloudfunctions.net/charge'
     + `?token=${token}&amount=${amount}&recipient=${recipient}`
 
@@ -17,7 +17,7 @@ function sendToken (token, amount, recipient) {
     })
 }
 
-function getAmountCents (selector:string):number {
+export function getAmountCents (selector:string):number {
   return Math.round( (document.querySelector(selector) as HTMLInputElement).valueAsNumber * 100)
 }
 
@@ -64,46 +64,4 @@ function toPrecision(value:number, numDecimals = 2):number {
 window.addEventListener('load', () => {
   linkCurrencies('.buy-amount-token','.buy-amount-dkk', 1)
   linkCurrencies('.sell-amount-token','.sell-amount-dkk', 0.95)
-})
-
-function onStripeLoaded (StripeCheckout:any) {
-  const handler = StripeCheckout.configure({
-    key: 'pk_test_wbX0FkGoH0wY8QajKTihIjw8',
-    image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-    locale: 'auto',
-    token: function (token) {
-      const amount = getAmountCents('.buy-amount-token')
-      // post this to a cloud function
-      const recipient = document.querySelector('.token-recipient').getAttribute('value')
-      const debugString = `${token.id} ${amount} ${recipient}`
-      console.debug(debugString)
-      // document.querySelector('.debug').textContent = debugString
-      sendToken(token.id, amount, recipient)
-    }
-  })
-
-  document.querySelector('.token-button').addEventListener('click', (e) => {
-    // Open Checkout with further options:
-    const amount = getAmountCents('.buy-amount-dkk')
-    handler.open({
-      name: 'Buy tokens',
-      description: 'some tokens',
-      currency: 'dkk',
-      allowRememberMe: false,
-      amount,
-    })
-    e.preventDefault()
-  })
-
-  // Close Checkout on page navigation:
-  window.addEventListener('popstate', function () {
-    handler.close()
-  })
-}
-
-window.addEventListener('load', () => {
-  console.debug("Load!")
-  if (!(window as any).StripeCheckout) return
-  console.assert(!!(window as any).StripeCheckout, 'StripeCheckout should be defined')
-  onStripeLoaded((window as any).StripeCheckout)
 })

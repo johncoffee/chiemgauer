@@ -5,11 +5,10 @@
     <link rel="stylesheet" href="vendor/foundation.min.css">
     <link rel="stylesheet" href="style.css">
     <script async src="https://checkout.stripe.com/checkout.js"></script>
-    <!--<script>-->
-    <!--document.querySelector('[src="https://checkout.stripe.com/checkout.js"]').addEventListener('load', () => {-->
-    <!--console.debug("nice")-->
-    <!--})-->
-    <!--</script>-->
+    <script type="module">
+      import { STRIPE_LOAD } from './stripe-stuff.js'
+      document.querySelector('[src="https://checkout.stripe.com/checkout.js"]').addEventListener('load', () => window.dispatchEvent(new CustomEvent(STRIPE_LOAD)) )
+    </script>
     <script type="module">
       import "./main.js"
     </script>

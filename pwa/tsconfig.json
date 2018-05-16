@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "none",
+    "module": "es6",
     "target": "es6",
     "noEmitHelpers": true,
     "noEmitOnError": true,
