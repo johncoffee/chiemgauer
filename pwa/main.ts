@@ -25,12 +25,19 @@ function linkCurrencies(selector1:string, selector2:string, exchangeRate:number)
   const el1 = document.querySelector(selector1) as HTMLInputElement
   const el2 = document.querySelector(selector2) as HTMLInputElement
   console.assert(el1 && el2, `should've found..`,el1, el2)
-  el1.addEventListener('keyup', () => {
+
+  const evtHandler1 = () => {
     el2.valueAsNumber = toPrecision(el1.valueAsNumber * exchangeRate, 2)
-  })
-  el2.addEventListener('keyup', () => {
+  }
+  const evtHandler2 = () => {
     el1.valueAsNumber = toPrecision(el2.valueAsNumber / exchangeRate, 2)
-  })
+  }
+
+  el1.addEventListener('keyup', evtHandler1)
+  el1.addEventListener('change', evtHandler1)
+
+  el2.addEventListener('keyup', evtHandler2)
+  el2.addEventListener('change', evtHandler2)
 }
 
 async function withdraw() {
