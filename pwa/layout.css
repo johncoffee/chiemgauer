@@ -1,0 +1,38 @@
+/* tags */
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+}
+
+
+a {color: inherit;}
+a:hover {text-decoration: underline}
+
+
+/* layout */
+
+.full-background {
+    background-size: cover;
+    background-position: center center;
+}
+
+.half-height {
+    height: auto;
+}
+
+.margin-vertical-1 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+@media print, screen and (min-height: 534px) {
+    .half-height {
+        height: 100%;
+    }
+}
+
+
+
+

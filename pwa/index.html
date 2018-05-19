@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="vendor/foundation.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="layout.css">
     <script async src="https://checkout.stripe.com/checkout.js"></script>
     <script type="module">
       import { STRIPE_LOAD } from './stripe-stuff.js'
@@ -22,7 +22,7 @@
             <div class="cell small-11 medium-9 large-7">
                 <form class="grid-x grid-margin-x margin-vertical-1">
                     <h5 class="cell auto">
-                        BUY
+                        Buy CMG
                     </h5>
                     <h5 class="cell shrink">
                         1 CMG = 1 DKK
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="cell medium-12">
-                        <button class="token-button primary button expanded" tabindex="2" type="button">Continue to Payment Gateway</button>
+                        <button class="token-button primary button expanded bg-orange2 text-dark" tabindex="2" type="button">CONTINUE TO PAYMENT GATEWAY</button>
                     </div>
                 </form>
             </div>
@@ -57,10 +57,11 @@
     <div class="cell small-6
                     bg-blue1">
         <div class="grid-x  align-center-middle" style="height: 100%">
+            <!--hidden --><hr class="show-for-sr">
             <div class="cell small-11 medium-9 large-7">
                 <form class="grid-x grid-margin-x margin-vertical-1">
                     <h5 class="cell auto">
-                        SELL
+                        Sell CMG
                     </h5>
                     <h5 class="cell shrink">
                         1 CMG = 0.95 DKK
@@ -86,7 +87,7 @@
                         </div>
                     </div>
                     <div class="cell medium-12">
-                        <button class="token-button primary button expanded" type="button" tabindex="5">Place order</button>
+                        <button class="token-button primary button expanded bg-blue2 text-dark" type="button" tabindex="5">PLACE ORDER</button>
                     </div>
                 </form>
             </div>

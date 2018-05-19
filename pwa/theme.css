@@ -1,0 +1,36 @@
+/* theme */
+
+input::placeholder, textarea::placeholder {color: #fff;}
+
+input:focus::placeholder {color: #111;}
+
+.input-group-label, [type="text"], [type="number"] {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    box-shadow: none;
+}
+
+[type="text"]:focus, [type="number"]:focus {
+    color: #222;
+    box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.85);
+    background-color: rgba(255, 255, 255, 0.82);
+    border-color: #fff;
+}
+
+.button:focus {
+    box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.85);
+    outline: 1px solid #fff;
+}
+
+/* colours */
+
+.text-dark {color: #222 !important;}
+.text-white {color: #ffffff !important;}
+
+.bg-blue1 {background-color: #2c4281 !important;}
+.bg-blue2 {background-color: #edff3b !important;}
+.bg-yellow1 {background-color: #facf28 !important;}
+.bg-orange1 {background-color: #270c45 !important}
+.bg-orange2 {background-color: #ff8100 !important;}
+.bg-white {background-color: #ffffff !important;}
