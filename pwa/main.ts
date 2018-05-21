@@ -64,4 +64,4 @@ function toPrecision(value:number, numDecimals = 2):number {
 window.addEventListener('load', () => {
   linkCurrencies('.buy-amount-token','.buy-amount-dkk', 1)
   linkCurrencies('.sell-amount-token','.sell-amount-dkk', 0.95)
-})
+}, {once: true})
