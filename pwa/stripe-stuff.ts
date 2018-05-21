@@ -33,9 +33,12 @@ function onStripeLoaded (StripeCheckout:any) {
   window.addEventListener('popstate',  () => handler.close())
 }
 
-export const STRIPE_LOAD = 'STRIPE_LOAD'
+document.querySelector('[src="https://checkout.stripe.com/checkout.js"]').addEventListener('load', () => window.dispatchEvent(new CustomEvent(STRIPE_LOAD)), {once: true})
+
+const STRIPE_LOAD = 'STRIPE_LOAD'
 
 window.addEventListener(STRIPE_LOAD, () => {
-  console.assert(!!(window as any).StripeCheckout, 'StripeCheckout should be defined')
-  onStripeLoaded((window as any).StripeCheckout)
-})
+  const stripeCheckout = (window as any).StripeCheckout
+  console.assert(!!stripeCheckout, 'StripeCheckout should be defined')
+  onStripeLoaded(stripeCheckout)
+}, {once: true})

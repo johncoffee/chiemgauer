@@ -6,8 +6,7 @@
     <link rel="stylesheet" href="layout.css">
     <script async src="https://checkout.stripe.com/checkout.js"></script>
     <script type="module">
-      import { STRIPE_LOAD } from './stripe-stuff.js'
-      document.querySelector('[src="https://checkout.stripe.com/checkout.js"]').addEventListener('load', () => window.dispatchEvent(new CustomEvent(STRIPE_LOAD)) )
+      import './stripe-stuff.js' // just side effects
     </script>
     <script type="module">
       import "./main.js"
