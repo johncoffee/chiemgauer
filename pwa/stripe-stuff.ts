@@ -1,6 +1,25 @@
-import { getAmountCents, sendToken } from './main.js'
+import { getAmountCents } from './main.js'
 
-function onStripeLoaded (StripeCheckout:any) {
+function sendToken (token, amount, recipient) {
+  const url = 'https://us-central1-chiemgauer-203318.cloudfunctions.net/charge'
+    + `?token=${token}&amount=${amount}&recipient=${recipient}`
+
+  const req = new Request(url, <RequestInit>{
+    headers: <HeadersInit>{
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+    mode: 'cors',
+  })
+  fetch(req)
+    .then(() => alert('OK! Expect the tokens to arrive within a few minutes.'))
+    .catch((err) => {
+      console.error(err)
+      alert('Error sending token request.')
+    })
+}
+
+export function onStripeLoaded (StripeCheckout:any) {
   const handler = StripeCheckout.configure({
     key: 'pk_test_wbX0FkGoH0wY8QajKTihIjw8',
     image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
@@ -16,6 +35,7 @@ function onStripeLoaded (StripeCheckout:any) {
     }
   })
 
+  console.debug(document.querySelector('.token-button'))
   document.querySelector('.token-button').addEventListener('click', (e) => {
     // Open Checkout with further options:
     const amount = getAmountCents('.buy-amount-dkk')
@@ -33,10 +53,9 @@ function onStripeLoaded (StripeCheckout:any) {
   window.addEventListener('popstate',  () => handler.close())
 }
 
-document.querySelector('[src="https://checkout.stripe.com/checkout.js"]').addEventListener('load', () => window.dispatchEvent(new CustomEvent(STRIPE_LOAD)), {once: true})
-
 const STRIPE_LOAD = 'STRIPE_LOAD'
 
+console.debug('1. subscribed to ' + STRIPE_LOAD)
 window.addEventListener(STRIPE_LOAD, () => {
   const stripeCheckout = (window as any).StripeCheckout
   console.assert(!!stripeCheckout, 'StripeCheckout should be defined')

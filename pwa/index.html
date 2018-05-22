@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="vendor/foundation.min.css">
     <link rel="stylesheet" href="layout.css">
-    <script async src="https://checkout.stripe.com/checkout.js"></script>
-    <script type="module">
-      import './stripe-stuff.js' // just side effects
-    </script>
     <script type="module">
       import "./main.js"
     </script>
@@ -93,6 +89,20 @@
         </div>
     </div>
 </div>
+
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script type="module" src="./stripe-stuff.js"></script>
+<script>
+(async function fireOnStripeReady() {
+  await Promise.all([
+    new Promise(resolve => window.addEventListener('load', () => resolve(), {once: true})),
+    new Promise(resolve => document.querySelector('[src="./stripe-stuff.js"').addEventListener('load', () => resolve(), {once: true})),
+  ])
+  const STRIPE_LOAD = 'STRIPE_LOAD'
+  console.debug('2. fire '+ STRIPE_LOAD)
+  window.dispatchEvent(new CustomEvent(STRIPE_LOAD))
+})()
+</script>
 
 </body>
 </html>

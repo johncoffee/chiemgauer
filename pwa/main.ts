@@ -1,22 +1,3 @@
-export function sendToken (token, amount, recipient) {
-  const url = 'https://us-central1-chiemgauer-203318.cloudfunctions.net/charge'
-    + `?token=${token}&amount=${amount}&recipient=${recipient}`
-
-  const req = new Request(url, <RequestInit>{
-    headers: <HeadersInit>{
-      'Content-Type': 'application/json',
-    },
-    method: 'GET',
-    mode: 'cors',
-  })
-  fetch(req)
-    .then(() => alert('OK! Expect the tokens to arrive within a few minutes.'))
-    .catch((err) => {
-      console.error(err)
-      alert('Error sending token request.')
-    })
-}
-
 export function getAmountCents (selector:string):number {
   return Math.round( (document.querySelector(selector) as HTMLInputElement).valueAsNumber * 100)
 }
