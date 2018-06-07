@@ -7,13 +7,14 @@ const Web3 = require('web3')
 const privateKey = '0x' + '66b4b72fdbf512ff825787602b761d2f9983c7e828ea905284f43ea9a19f7d4b' // rink
 
 const methodName = 'mint'
-const contractArtifact = require('./build/contracts/Chiemgauer.json')
+const contractArtifact = require('../../build/contracts/Chiemgauer.json')
 const mintAbi = contractArtifact.abi.find((method:any) => method.name === methodName)
 console.assert(!!mintAbi, `Should've found ${methodName} in `, contractArtifact.abi)
 
 const networkId:number = 4
 const API_KEY = 'xSa977dElK0pyDw8ipCV'
 const rpcUrl = `https://rinkeby.infura.io/${API_KEY}`
+// const rpcUrl = `http://localhost:7545`
 
 const contractAddress:string = contractArtifact.networks[networkId].address
 
